@@ -28,6 +28,15 @@ class playlistController {
     }
   }
 
+  async getByQuery(req, res) {
+    try {
+      const playlists = await playlistService.getByQuery(req.params.query)
+      return res.json(playlists)
+    } catch (error) {
+      return res.status(500).json(error)
+    }
+  }
+
   async updateById(req, res) {
     try {
       const updatedPlaylist = await playlistService.update(req.body)

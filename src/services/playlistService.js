@@ -22,6 +22,17 @@ class playlistService {
     return playlist
   }
 
+  async getByQuery(query) {
+    if (!query) throw new Error('Need query')
+    const playlists = await Playlist.find({
+      $or: [
+        { title: { $regex: query, $options: 'mi' } },
+        { author: { $regex: query, $options: 'mi' } }
+      ]
+    });
+    return playlists
+  }
+
   async update(playlist) {
     if (!playlist._id) throw new Error('Need id')
     const updatedPlaylist = await Playlist.findByIdAndUpdate(playlist._id, playlist, { new: true })

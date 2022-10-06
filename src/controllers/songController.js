@@ -28,6 +28,16 @@ class songController {
     }
   }
 
+  async getByQuery(req, res) {
+    try {
+      const songs = await songService.getByQuery(req.params.query)
+      return res.json(songs)
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error)
+    }
+  }
+
   async updateById(req, res) {
     try {
       const updatedSong = await songService.update(req.body)
