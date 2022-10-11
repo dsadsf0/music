@@ -3,9 +3,12 @@ import bcrypt from 'bcrypt'
 import tokenService from "./tokenService.js";
 
 class userService {
-
+  dto(user) {
+    const dtoUser = { id: user._id, email: user.email, username: user.username, likedSongs: user.likedSongs }
+    return dtoUser
+  }
   async dtoAndToken(user) {
-    const dtoUser = { id: user._id, email: user.email, username: user.username }
+    const dtoUser = this.dto(user)
 
     const tokens = tokenService.generateToken(dtoUser)
     await tokenService.saveToken(dtoUser.id, tokens.refreshToken)
@@ -55,14 +58,24 @@ class userService {
 
     const user = await User.findById(userData.id)
     const res = await this.dtoAndToken(user)
-
+    
     return res;
   }
 
   async getById(id) {
     if (!id) throw new Error('Need id')
     const user = await User.findById(id);
-    return user
+    return this.dto(user)
+  }
+
+  async likeSongById(userId, songId) {
+    let user = await User.findById(userId)
+    if (user.likedSongs.indexOf(songId) === -1) {
+      user = await User.findByIdAndUpdate(userId, { $addToSet: { likedSongs: songId }})
+    } else {
+      user = await User.findByIdAndUpdate(userId, { $pull: { likedSongs: songId } })
+    }
+    return this.dto(user)
   }
 
   // async update(user) {

@@ -53,7 +53,10 @@ class userController {
       res.cookie('refreshToken', user.refreshToken, { maxAge: 1000 * 60 * 60 * 24 * 30, httpOnly: true, SameSite: 'none', secure: false })
       return res.json(user)
     } catch (error) {
+      console.log('------------------------------')
+      console.log(`\u001b[1;35m${new Date().toLocaleString() }\u001b[0m`)
       console.log(error)
+      console.log('------------------------------')
       return res.status(500).json(error)
     }
   }
@@ -62,6 +65,17 @@ class userController {
     try {
       const id = req.params.id
       const user = await userService.getById(id)
+      return res.json(user)
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json(error)
+    }
+  }
+
+  async likeSongById(req, res) {
+    try {
+      const { userId, songId } = req.body
+      const user = await userService.likeSongById(userId, songId)
       return res.json(user)
     } catch (error) {
       console.log(error)

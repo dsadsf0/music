@@ -23,6 +23,7 @@ userRouter.post('/login',
 userRouter.post('/logout', userController.logout)
 userRouter.get('/refresh', userController.refreshToken)
 userRouter.get('/user/:id', authMiddleware, userController.getById)
+userRouter.put('/user/like', authMiddleware, userController.likeSongById)
 // userRouter.put('/user/:id', authMiddleware, userController.updateById)
 userRouter.delete('/user/:id', authMiddleware, userController.deleteById)
 // userRouter.post('/user/like', authMiddleware, userController.like)
