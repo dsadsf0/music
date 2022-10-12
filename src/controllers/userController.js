@@ -83,11 +83,33 @@ class userController {
     }
   }
 
+  async likedSongs(req, res) {
+    try {
+      const userId = req.params.userId
+      const songs = await userService.likedSongs(userId)
+      return res.json(songs)
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json(error)
+    }
+  }
+
   async likePlaylistById(req, res) {
     try {
       const { userId, playlistId } = req.body
       const user = await userService.likePlaylistById(userId, playlistId)
       return res.json(user)
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json(error)
+    }
+  }
+
+  async likedPlaylists(req, res) {
+    try {
+      const userId = req.params.userId
+      const playlists = await userService.likedPlaylists(userId)
+      return res.json(playlists)
     } catch (error) {
       console.log(error)
       return res.status(500).json(error)

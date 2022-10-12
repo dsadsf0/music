@@ -78,6 +78,11 @@ class userService {
     return this.dto(user)
   }
 
+  async likedSongs(userId) {
+    const songs = await User.findById(userId).populate('likedSongs')
+    return songs.likedSongs
+  }
+  
   async likePlaylistById(userId, playlistId) {
     let user = await User.findById(userId)
     if (!user.likedPlaylists.includes(playlistId)) {
@@ -86,6 +91,11 @@ class userService {
       user = await User.findByIdAndUpdate(userId, { $pull: { likedPlaylists: playlistId } })
     }
     return this.dto(user)
+  }
+  
+  async likedPlaylists(userId) {
+    const user = await User.findById(userId).populate('likedPlaylists')
+    return user.likedPlaylists
   }
 
   // async update(user) {
