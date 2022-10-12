@@ -4,7 +4,7 @@ import tokenService from "./tokenService.js";
 
 class userService {
   dto(user) {
-    const dtoUser = { id: user._id, email: user.email, username: user.username, likedSongs: user.likedSongs }
+    const dtoUser = { id: user._id, email: user.email, username: user.username, likedSongs: user.likedSongs, likedPlaylists: user.likedPlaylists }
     return dtoUser
   }
   async dtoAndToken(user) {
@@ -70,10 +70,20 @@ class userService {
 
   async likeSongById(userId, songId) {
     let user = await User.findById(userId)
-    if (user.likedSongs.indexOf(songId) === -1) {
+    if (!user.likedSongs.includes(songId)) {
       user = await User.findByIdAndUpdate(userId, { $addToSet: { likedSongs: songId }})
     } else {
       user = await User.findByIdAndUpdate(userId, { $pull: { likedSongs: songId } })
+    }
+    return this.dto(user)
+  }
+
+  async likePlaylistById(userId, playlistId) {
+    let user = await User.findById(userId)
+    if (!user.likedPlaylists.includes(playlistId)) {
+      user = await User.findByIdAndUpdate(userId, { $addToSet: { likedPlaylists: playlistId } })
+    } else {
+      user = await User.findByIdAndUpdate(userId, { $pull: { likedPlaylists: playlistId } })
     }
     return this.dto(user)
   }
