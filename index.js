@@ -4,16 +4,12 @@ import cors from 'cors'
 import env from 'dotenv'
 import cookieParser from 'cookie-parser'
 import fileUpload from 'express-fileupload';
-import * as uuid from 'uuid'
 import playlistRouter from './src/routers/playlistRouter.js';
 import sectionRouter from './src/routers/sectionRouter.js'
 import songRouter from './src/routers/songRouter.js'
 import userRouter from './src/routers/userRouter.js'
 
 env.config()
-
-// generate string
-// console.log(uuid.v4())
 
 const app = express()
 

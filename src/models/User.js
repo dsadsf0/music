@@ -6,6 +6,8 @@ const User = new mongoose.Schema({
   password: { type: String, required: true },
   likedSongs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'song' }],
   likedPlaylists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'playlist' }],
+  uploadedSongs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'song' }],
+  createdPlaylists: [{ type: mongoose.Schema.Types.ObjectId, ref: 'playlist' }],
 })
 
 export default mongoose.model('user', User)

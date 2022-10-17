@@ -1,8 +1,14 @@
 import Song from "../models/Song.js";
+import CoverFileService from "../fileSevices/CoverFileService.js"
+import SongFileService from "../fileSevices/SongFileService.js"
 
 class songService {
-  async create(song) {
-    const newSong = await Song.create(song)
+  async create(song, songFile, coverFile) {
+    if (!songFile) throw new Error('Need song')
+    if (!coverFile) throw new Error('Need cover')
+    const coverName = CoverFileService.saveCover(coverFile)
+    const songName = SongFileService.saveSong(songFile)
+    const newSong = await Song.create({ ...song, cover: coverName, src: songName })
     return newSong
   }
 

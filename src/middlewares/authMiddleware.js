@@ -15,6 +15,6 @@ export default function (req, res, next) {
     req.user = user
     next()
   } catch (error) {
-    return next('User not authorized middleware')
+    return next('User not authorized server error')
   }
 };

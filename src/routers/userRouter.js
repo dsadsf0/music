@@ -23,12 +23,18 @@ userRouter.post('/login',
 userRouter.post('/logout', userController.logout)
 userRouter.get('/refresh', userController.refreshToken)
 userRouter.get('/user/:id', authMiddleware, userController.getById)
+
 userRouter.put('/user/like/song', authMiddleware, userController.likeSongById)
-userRouter.get('/user/like/song/:userId', authMiddleware, userController.likedSongs)
 userRouter.put('/user/like/playlist', authMiddleware, userController.likePlaylistById)
-userRouter.get('/user/like/playlist/:userId', authMiddleware, userController.likedPlaylists)
-// userRouter.put('/user/:id', authMiddleware, userController.updateById)
-userRouter.delete('/user/:id', authMiddleware, userController.deleteById)
+
+userRouter.get('/user/liked/songs', authMiddleware, userController.likedSongs)
+userRouter.get('/user/liked/playlists', authMiddleware, userController.likedPlaylists)
+
+userRouter.get('/user/uploaded/songs', authMiddleware, userController.uploadedSongs)
+userRouter.get('/user/created/playlists/:userId', authMiddleware, userController.createdPlaylists)
+
+// userRouter.put('/user', authMiddleware, userController.updateById)
+// userRouter.delete('/user', authMiddleware, userController.deleteById)
 // userRouter.post('/user/like', authMiddleware, userController.like)
 
 export default userRouter

@@ -1,10 +1,19 @@
 import songService from "../services/songService.js"
+import userSrevice from "../services/userSrevice.js"
 
 class songController {
   async create(req, res) {
     try {
-      const song = await songService.create(req.body)
-      return res.json(song)
+      const err = validationResult(req).errors
+      if (err.length) {
+        return res.status(400).json(err)
+      }
+      const userId = req.user.id
+      const newSong = req.body.user
+      const { songFile, coverFile } = req.files
+      const song = await songService.create(newSong, songFile, coverFile)
+      const user = await userSrevice.uploadSongById(userId, song._id)
+      return res.json(user)
     } catch (error) {
       return res.status(500).json(error)
     }

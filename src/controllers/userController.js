@@ -74,7 +74,8 @@ class userController {
 
   async likeSongById(req, res) {
     try {
-      const { userId, songId } = req.body
+      const { songId } = req.body
+      const userId = req.user.id
       const user = await userService.likeSongById(userId, songId)
       return res.json(user)
     } catch (error) {
@@ -85,7 +86,7 @@ class userController {
 
   async likedSongs(req, res) {
     try {
-      const userId = req.params.userId
+      const userId = req.user.id
       const songs = await userService.likedSongs(userId)
       return res.json(songs)
     } catch (error) {
@@ -96,7 +97,8 @@ class userController {
 
   async likePlaylistById(req, res) {
     try {
-      const { userId, playlistId } = req.body
+      const { playlistId } = req.body
+      const userId = req.user.id
       const user = await userService.likePlaylistById(userId, playlistId)
       return res.json(user)
     } catch (error) {
@@ -107,8 +109,30 @@ class userController {
 
   async likedPlaylists(req, res) {
     try {
-      const userId = req.params.userId
+      const userId = req.user.id
       const playlists = await userService.likedPlaylists(userId)
+      return res.json(playlists)
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json(error)
+    }
+  }
+
+  async uploadedSongs(req, res) {
+    try {
+      const userId = req.user.id
+      const songs = await userService.uploadedSongs(userId)
+      return res.json(songs)
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json(error)
+    }
+  }
+
+  async createdPlaylists(req, res) {
+    try {
+      const userId = req.user.id
+      const playlists = await userService.createdPlaylists(userId)
       return res.json(playlists)
     } catch (error) {
       console.log(error)

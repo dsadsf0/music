@@ -4,7 +4,15 @@ import tokenService from "./tokenService.js";
 
 class userService {
   dto(user) {
-    const dtoUser = { id: user._id, email: user.email, username: user.username, likedSongs: user.likedSongs, likedPlaylists: user.likedPlaylists }
+    const dtoUser = { 
+      id: user._id, 
+      email: user.email, 
+      username: user.username, 
+      likedSongs: user.likedSongs, 
+      likedPlaylists: user.likedPlaylists,
+      uploadedSongs: user.uploadedSongs,
+      createdPlaylists: user.createdPlaylists,
+    }
     return dtoUser
   }
   async dtoAndToken(user) {
@@ -96,6 +104,26 @@ class userService {
   async likedPlaylists(userId) {
     const user = await User.findById(userId).populate('likedPlaylists')
     return user.likedPlaylists
+  }
+
+  async uploadSongById(userId, songId) {
+    const user = await User.findByIdAndUpdate(userId, { $addToSet: { uploadedSongs: songId } })
+    return this.dto(user)
+  }
+
+  async uploadedSongs(userId) {
+    const songs = await User.findById(userId).populate('uploadedSongs')
+    return songs.uploadedSongs
+  }
+
+  async createPlaylitById(userId, playlistId) {
+    const user = await User.findByIdAndUpdate(userId, { $addToSet: { createdPlaylists: playlistId } })
+    return this.dto(user)
+  }
+
+  async createdPlaylists(userId) {
+    const playlists = await User.findById(userId).populate('createdPlaylists')
+    return playlists.createdPlaylists
   }
 
   // async update(user) {
