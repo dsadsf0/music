@@ -15,6 +15,7 @@ class userService {
     }
     return dtoUser
   }
+
   async dtoAndToken(user) {
     const dtoUser = this.dto(user)
 

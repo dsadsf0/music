@@ -1,20 +1,23 @@
 import songService from "../services/songService.js"
 import userSrevice from "../services/userSrevice.js"
+import { validationResult } from 'express-validator'
 
 class songController {
   async create(req, res) {
     try {
       const err = validationResult(req).errors
       if (err.length) {
+        console.log(err);
         return res.status(400).json(err)
       }
-      const userId = req.user.id
-      const newSong = req.body.user
+      const userId = req.user.id      
+      const newSong = {name: req.body.name, author: req.user.username}
       const { songFile, coverFile } = req.files
       const song = await songService.create(newSong, songFile, coverFile)
       const user = await userSrevice.uploadSongById(userId, song._id)
       return res.json(user)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
