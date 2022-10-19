@@ -18,7 +18,7 @@ class playlistService {
 
   async getById(id) {
     if (!id) throw new Error('Need id')
-    const playlist = await Playlist.findById(id);
+    const playlist = await Playlist.findById(id).populate('songs');
     return playlist
   }
 
