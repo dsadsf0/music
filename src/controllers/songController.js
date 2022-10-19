@@ -11,7 +11,7 @@ class songController {
         return res.status(400).json(err)
       }
       const userId = req.user.id      
-      const newSong = {name: req.body.name, author: req.user.username}
+      const newSong = {name: req.body.name, author: req.body.author}
       const { songFile, coverFile } = req.files
       const song = await songService.create(newSong, songFile, coverFile)
       const user = await userSrevice.uploadSongById(userId, song._id)

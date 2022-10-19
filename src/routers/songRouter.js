@@ -9,6 +9,8 @@ songRouter.post('/song',
   authMiddleware,
   body('name')
     .isLength({ min: 2, max: 60 }).withMessage('Song name must be 2-60 characters long'),
+  body('author')
+    .isLength({ min: 2, max: 60 }).withMessage('Song name must be 2-60 characters long'),
    songController.create)
 songRouter.get('/song', songController.get)
 songRouter.get('/song/:id', songController.getById)
