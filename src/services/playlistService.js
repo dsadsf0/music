@@ -1,9 +1,22 @@
 import Playlist from '../models/Playlist.js'
+import CoverFileService from "../fileSevices/CoverFileService.js"
 
 class playlistService {
-  async create(playlist) {
-    const newPlaylist = await Playlist.create(playlist)
+  async create(playlist, cover) {
+    if (!cover) throw new Error('Need cover')
+    const coverName = CoverFileService.saveCover(coverFile)
+    const newPlaylist = await Playlist.create({...playlist, cover: coverName})
     return newPlaylist
+  }
+
+  async addSongById(id, songId) {
+    const playlist = await Playlist.findByIdAndUpdate(id, { $addToSet: {songs: songId}});
+    return playlist
+  }
+
+  async removeSongById(id, songId) {
+    const playlist = await Playlist.findByIdAndUpdate(id, { $pull: { songs: songId } });
+    return playlist
   }
 
   async getAll() {
@@ -37,7 +50,6 @@ class playlistService {
     if (!playlist._id) throw new Error('Need id')
     const updatedPlaylist = await Playlist.findByIdAndUpdate(playlist._id, playlist, { new: true })
     return res.json(updatedPlaylist)
-
   }
 
   async deleteById(id) {

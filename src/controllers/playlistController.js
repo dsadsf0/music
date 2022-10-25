@@ -1,9 +1,42 @@
 import playlistService from "../services/playlistService.js"
+import userSrevice from "../services/userSrevice.js"
+import { validationResult } from 'express-validator'
 
 class playlistController {
   async create(req, res) {
     try {
-      const playlist = await playlistService.create(req.body)
+      const err = validationResult(req).errors
+      if (err.length) {
+        console.log(err);
+        return res.status(400).json(err)
+      }
+      const userId = req.user.id
+      const newPlaylist = { tittle: req.body.title, author: req.body.author, description: req.body.description }
+      const { coverFile } = req.files
+      const playlist = await playlistService.create(newPlaylist, coverFile)
+      const user = await userSrevice.createPlaylitById(userId, playlist._id)
+      return res.json(user)
+    } catch (error) {
+      return res.status(500).json(error)
+    }
+  }
+
+  async addSongById(req, res) {
+    try {
+      const { songId } = req.body
+      const playlsitId = req.params.id
+      const playlist = await playlistService.addSongById(playlsitId, songId)
+      return res.json(playlist)
+    } catch (error) {
+      return res.status(500).json(error)
+    }
+  }
+
+  async removeSongById(req, res) {
+    try {
+      const { songId } = req.body
+      const playlsitId = req.params.id
+      const playlist = await playlistService.removeSongById(playlsitId, songId)
       return res.json(playlist)
     } catch (error) {
       return res.status(500).json(error)

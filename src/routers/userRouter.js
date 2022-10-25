@@ -31,7 +31,7 @@ userRouter.get('/user/liked/songs', authMiddleware, userController.likedSongs)
 userRouter.get('/user/liked/playlists', authMiddleware, userController.likedPlaylists)
 
 userRouter.get('/user/uploaded/songs', authMiddleware, userController.uploadedSongs)
-userRouter.get('/user/created/playlists/:userId', authMiddleware, userController.createdPlaylists)
+userRouter.get('/user/uploaded/playlists', authMiddleware, userController.createdPlaylists)
 
 // userRouter.put('/user', authMiddleware, userController.updateById)
 // userRouter.delete('/user', authMiddleware, userController.deleteById)
