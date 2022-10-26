@@ -6,6 +6,7 @@ class sectionController {
       const section = await sectionService.create(req.body)
       return res.json(section)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -15,6 +16,7 @@ class sectionController {
       const section = await sectionService.getCount(req.query.limit)
       return res.json(section)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -24,6 +26,7 @@ class sectionController {
       const section = await sectionService.getById(req.params.id)
       return res.json(section)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -33,6 +36,7 @@ class sectionController {
       const updatedsection = await sectionService.update(req.body)
       return res.json(updatedsection)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -42,6 +46,7 @@ class sectionController {
       const section = await sectionService.deleteById(req.params.id)
       return res.json(section)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }

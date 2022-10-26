@@ -80,9 +80,9 @@ class userService {
   async likeSongById(userId, songId) {
     let user = await User.findById(userId)
     if (!user.likedSongs.includes(songId)) {
-      user = await User.findByIdAndUpdate(userId, { $addToSet: { likedSongs: songId }})
+      user = await User.findByIdAndUpdate(userId, { $addToSet: { likedSongs: songId } }, { new: true })
     } else {
-      user = await User.findByIdAndUpdate(userId, { $pull: { likedSongs: songId } })
+      user = await User.findByIdAndUpdate(userId, { $pull: { likedSongs: songId } }, { new: true })
     }
     return this.dto(user)
   }
@@ -95,9 +95,9 @@ class userService {
   async likePlaylistById(userId, playlistId) {
     let user = await User.findById(userId)
     if (!user.likedPlaylists.includes(playlistId)) {
-      user = await User.findByIdAndUpdate(userId, { $addToSet: { likedPlaylists: playlistId } })
+      user = await User.findByIdAndUpdate(userId, { $addToSet: { likedPlaylists: playlistId } }, { new: true })
     } else {
-      user = await User.findByIdAndUpdate(userId, { $pull: { likedPlaylists: playlistId } })
+      user = await User.findByIdAndUpdate(userId, { $pull: { likedPlaylists: playlistId } }, { new: true })
     }
     return this.dto(user)
   }
@@ -108,7 +108,7 @@ class userService {
   }
 
   async uploadSongById(userId, songId) {
-    const user = await User.findByIdAndUpdate(userId, { $addToSet: { uploadedSongs: songId } })
+    const user = await User.findByIdAndUpdate(userId, { $addToSet: { uploadedSongs: songId } }, { new: true })
     return this.dto(user)
   }
 
@@ -118,7 +118,7 @@ class userService {
   }
 
   async createPlaylitById(userId, playlistId) {
-    const user = await User.findByIdAndUpdate(userId, { $addToSet: { createdPlaylists: playlistId } })
+    const user = await User.findByIdAndUpdate(userId, { $addToSet: { createdPlaylists: playlistId } }, { new: true })
     return this.dto(user)
   }
 

@@ -8,11 +8,9 @@ const playlistRouter = new Router();
 playlistRouter.post('/playlist', 
   authMiddleware,
   body('title')
-    .isLength({ min: 2, max: 60 }).withMessage('Song name must be 2-60 characters long'),
-  body('author')
-    .isLength({ min: 2, max: 60 }).withMessage('Song name must be 2-60 characters long'),
+    .isLength({ min: 2, max: 60 }).withMessage('Playlist title must be 2-60 characters long'),
   body('description')
-    .isLength({ min: 2, max: 120 }).withMessage('Song name must be 2-60 characters long'),
+    .isLength({ min: 2, max: 120 }).withMessage('Playlist description must be 2-60 characters long'),
    playlistController.create)
 playlistRouter.get('/playlist', playlistController.get)
 playlistRouter.get('/playlist/:id', playlistController.getById)

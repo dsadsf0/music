@@ -11,12 +11,13 @@ class playlistController {
         return res.status(400).json(err)
       }
       const userId = req.user.id
-      const newPlaylist = { tittle: req.body.title, author: req.body.author, description: req.body.description }
+      const newPlaylist = { title: req.body.title, author: req.user.username, description: req.body.description }
       const { coverFile } = req.files
       const playlist = await playlistService.create(newPlaylist, coverFile)
       const user = await userSrevice.createPlaylitById(userId, playlist._id)
       return res.json(user)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -28,6 +29,7 @@ class playlistController {
       const playlist = await playlistService.addSongById(playlsitId, songId)
       return res.json(playlist)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -48,6 +50,7 @@ class playlistController {
       const playlist = await playlistService.getCount(req.query.limit)
       return res.json(playlist)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -57,6 +60,7 @@ class playlistController {
       const playlist = await playlistService.getById(req.params.id)
       return res.json(playlist)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -66,6 +70,7 @@ class playlistController {
       const playlists = await playlistService.getByQuery(req.params.query)
       return res.json(playlists)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -75,6 +80,7 @@ class playlistController {
       const updatedPlaylist = await playlistService.update(req.body)
       return res.json(updatedPlaylist)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -84,6 +90,7 @@ class playlistController {
       const playlist = await playlistService.deleteById(req.params.id)
       return res.json(playlist)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }

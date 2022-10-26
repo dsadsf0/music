@@ -27,6 +27,7 @@ class songController {
       const song = await songService.getCount(req.query.limit)
       return res.json(song)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -36,6 +37,7 @@ class songController {
       const song = await songService.getById(req.params.id)
       return res.json(song)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -55,6 +57,7 @@ class songController {
       const updatedSong = await songService.update(req.body)
       return res.json(updatedSong)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }
@@ -64,6 +67,7 @@ class songController {
       const song = await songService.deleteById(req.params.id)
       return res.json(song)
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error)
     }
   }

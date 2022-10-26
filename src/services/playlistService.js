@@ -4,7 +4,7 @@ import CoverFileService from "../fileSevices/CoverFileService.js"
 class playlistService {
   async create(playlist, cover) {
     if (!cover) throw new Error('Need cover')
-    const coverName = CoverFileService.saveCover(coverFile)
+    const coverName = CoverFileService.saveCover(cover)
     const newPlaylist = await Playlist.create({...playlist, cover: coverName})
     return newPlaylist
   }
