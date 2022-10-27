@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import bcrypt from 'bcrypt'
 import tokenService from "./tokenService.js";
 import { ObjectId } from 'mongodb';
+import playlistService from "./playlistService.js";
 
 class userService {
   dto(user) {
@@ -129,7 +130,13 @@ class userService {
   }
   
   async deletePlaylist(userId, playlistId) {
-    const user = await User.findByIdAndUpdate(userId, { $pull: {createdPlaylists: playlistId}})
+    let user = await User.findById(userId)
+    const objId = new ObjectId(playlistId)
+    if (user.createdPlaylists.includes(objId)) {
+      await User.updateMany({ $in: { likedPlaylists: playlistId } }, { $pull: { likedPlaylists: playlistId } })    
+      user = await User.findByIdAndUpdate(userId, { $pull: { createdPlaylists: playlistId } }, {new: true})
+      await playlistService.deleteById(playlistId)
+    }
     return user
   }
 

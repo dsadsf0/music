@@ -54,7 +54,7 @@ class playlistService {
 
   async deleteById(id) {
     if (!id) throw new Error('Need id')
-    const playlist = await Playlist.deleteById(id)
+    const playlist = await Playlist.deleteOne({_id: id})
     return playlist
   }
 }

@@ -146,11 +146,7 @@ class userController {
     try {
       const userId = req.user.id
       const playlistId = req.params.id
-      let user = await userService.deletePlaylist(userId, playlistId)
-      const objId = new ObjectId(playlistId)
-      if (user.createdPlaylists.includes(objId))
-        await playlistService.deleteById(playlistId)
-      user = await userService.getById(userId)
+      const user = await userService.deletePlaylist(userId, playlistId)
       return res.json(user)
     } catch (error) {
       console.log(error)
