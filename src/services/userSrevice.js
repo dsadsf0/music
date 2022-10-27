@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import bcrypt from 'bcrypt'
 import tokenService from "./tokenService.js";
+import { ObjectId } from 'mongodb';
 
 class userService {
   dto(user) {
@@ -125,6 +126,11 @@ class userService {
   async createdPlaylists(userId) {
     const playlists = await User.findById(userId).populate('createdPlaylists')
     return playlists.createdPlaylists
+  }
+  
+  async deletePlaylist(userId, playlistId) {
+    const user = await User.findByIdAndUpdate(userId, { $pull: {createdPlaylists: playlistId}})
+    return user
   }
 
   // async update(user) {

@@ -1,5 +1,7 @@
 import userService from '../services/userSrevice.js'
 import {validationResult} from 'express-validator'
+import playlistService from '../services/playlistService.js'
+import { ObjectId } from 'mongodb'
 
 class userController {
   async create(req, res) {
@@ -139,6 +141,24 @@ class userController {
       return res.status(500).json(error)
     }
   }
+
+  async deletePlaylist(req, res) {
+    try {
+      const userId = req.user.id
+      const playlistId = req.params.id
+      let user = await userService.deletePlaylist(userId, playlistId)
+      const objId = new ObjectId(playlistId)
+      if (user.createdPlaylists.includes(objId))
+        await playlistService.deleteById(playlistId)
+      user = await userService.getById(userId)
+      return res.json(user)
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json(error)
+    }
+  }
+
+  
 
   // async updateById(req, res) {
   //   try {

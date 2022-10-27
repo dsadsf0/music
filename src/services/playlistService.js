@@ -10,12 +10,12 @@ class playlistService {
   }
 
   async addSongById(id, songId) {
-    const playlist = await Playlist.findByIdAndUpdate(id, { $addToSet: {songs: songId}});
+    const playlist = await Playlist.findByIdAndUpdate(id, { $addToSet: {songs: songId}}, { new: true });
     return playlist
   }
 
   async removeSongById(id, songId) {
-    const playlist = await Playlist.findByIdAndUpdate(id, { $pull: { songs: songId } });
+    const playlist = await Playlist.findByIdAndUpdate(id, { $pull: { songs: songId } }, { new: true });
     return playlist
   }
 
@@ -49,13 +49,13 @@ class playlistService {
   async update(playlist) {
     if (!playlist._id) throw new Error('Need id')
     const updatedPlaylist = await Playlist.findByIdAndUpdate(playlist._id, playlist, { new: true })
-    return res.json(updatedPlaylist)
+    return updatedPlaylist
   }
 
   async deleteById(id) {
     if (!id) throw new Error('Need id')
     const playlist = await Playlist.deleteById(id)
-    return res.json(playlist)
+    return playlist
   }
 }
 

@@ -8,6 +8,7 @@ import playlistRouter from './src/routers/playlistRouter.js';
 import sectionRouter from './src/routers/sectionRouter.js'
 import songRouter from './src/routers/songRouter.js'
 import userRouter from './src/routers/userRouter.js'
+import userSrevice from './src/services/userSrevice.js'
 
 env.config()
 

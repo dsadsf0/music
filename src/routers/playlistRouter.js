@@ -15,9 +15,9 @@ playlistRouter.post('/playlist',
 playlistRouter.get('/playlist', playlistController.get)
 playlistRouter.get('/playlist/:id', playlistController.getById)
 playlistRouter.get('/playlists/:query', playlistController.getByQuery)
-playlistRouter.put('/playlist/update/:id', playlistController.updateById)
-playlistRouter.put('/playlist/addSong/:id', playlistController.addSongById)
-playlistRouter.put('/playlist/removeSong/:id', playlistController.removeSongById)
-// playlistRouter.delete('/playlist/:id', playlistController.deleteById)
+playlistRouter.put('/playlist/update/:id', authMiddleware, playlistController.updateById)
+playlistRouter.put('/playlist/addSong/:id', authMiddleware, playlistController.addSongById)
+playlistRouter.put('/playlist/removeSong/:id', authMiddleware, playlistController.removeSongById)
+// playlistRouter.delete('/playlist/:id', authMiddleware, playlistController.deleteById)
 
 export default playlistRouter
