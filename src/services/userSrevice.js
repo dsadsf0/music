@@ -19,8 +19,7 @@ class userService {
   }
 
   async dtoAndToken(user) {
-    const dtoUser = this.dto(user)
-
+    const dtoUser = {id: user._id, email: user.email, username: user.username}
     const tokens = tokenService.generateToken(dtoUser)
     await tokenService.saveToken(dtoUser.id, tokens.refreshToken)
 
@@ -37,18 +36,28 @@ class userService {
     const hashPassword = await bcrypt.hash(user.password, 5)
 
     const newUser = await User.create({ email: user.email, username: user.username, password: hashPassword })
+      .populate('likedSongs')
+      .populate('likedPlaylists')
+      .populate('uploadedSongs')
+      .populate('createdPlaylists')
     const res = await this.dtoAndToken(newUser)
+
     return res;
   }
 
   async login(username, password) {
     const user = await User.findOne({ username })
+      .populate('likedSongs')
+      .populate('likedPlaylists')
+      .populate('uploadedSongs')
+      .populate('createdPlaylists')
     if (!user) throw 'This username is not exist'
 
     const isCorrectPass = await bcrypt.compare(password, user.password)
     if (!isCorrectPass) throw 'Invalid password'
 
     const res = await this.dtoAndToken(user)
+    
     return res;
   }
 
@@ -62,13 +71,15 @@ class userService {
 
     const userData = tokenService.validateRefreshToken(refreshToken)
     const tokenDB = await tokenService.findToken(refreshToken)
-
     if (!userData || !tokenDB) throw 'Invalid token'
 
     const user = await User.findById(userData.id)
+      .populate('likedSongs')
+      .populate('likedPlaylists')
+      .populate('uploadedSongs')
+      .populate('createdPlaylists')
     const res = await this.dtoAndToken(user)
-    
-    return res;
+    return { accessToken: res.accessToken, refreshToken: res.refreshToken, user };
   }
 
   async getById(id) {
