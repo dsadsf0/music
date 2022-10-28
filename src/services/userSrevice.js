@@ -38,7 +38,6 @@ class userService {
 
     const newUser = await User.create({ email: user.email, username: user.username, password: hashPassword })
     const res = await this.dtoAndToken(newUser)
-
     return res;
   }
 
@@ -50,7 +49,6 @@ class userService {
     if (!isCorrectPass) throw 'Invalid password'
 
     const res = await this.dtoAndToken(user)
-
     return res;
   }
 
@@ -75,7 +73,11 @@ class userService {
 
   async getById(id) {
     if (!id) throw new Error('Need id')
-    const user = await User.findById(id);
+    const user = await User.findById(id)
+      .populate('likedSongs')
+      .populate('likedPlaylists')
+      .populate('uploadedSongs')
+      .populate('createdPlaylists')
     return this.dto(user)
   }
 
@@ -86,6 +88,12 @@ class userService {
     } else {
       user = await User.findByIdAndUpdate(userId, { $pull: { likedSongs: songId } }, { new: true })
     }
+
+    user = await User.findById(userId)
+      .populate('likedSongs')
+      .populate('likedPlaylists')
+      .populate('uploadedSongs')
+      .populate('createdPlaylists')
     return this.dto(user)
   }
 
@@ -101,6 +109,11 @@ class userService {
     } else {
       user = await User.findByIdAndUpdate(userId, { $pull: { likedPlaylists: playlistId } }, { new: true })
     }
+    user = await User.findById(userId)
+      .populate('likedSongs')
+      .populate('likedPlaylists')
+      .populate('uploadedSongs')
+      .populate('createdPlaylists')
     return this.dto(user)
   }
   
@@ -111,6 +124,10 @@ class userService {
 
   async uploadSongById(userId, songId) {
     const user = await User.findByIdAndUpdate(userId, { $addToSet: { uploadedSongs: songId } }, { new: true })
+      .populate('likedSongs')
+      .populate('likedPlaylists')
+      .populate('uploadedSongs')
+      .populate('createdPlaylists')
     return this.dto(user)
   }
 
@@ -121,6 +138,10 @@ class userService {
 
   async createPlaylitById(userId, playlistId) {
     const user = await User.findByIdAndUpdate(userId, { $addToSet: { createdPlaylists: playlistId } }, { new: true })
+      .populate('likedSongs')
+      .populate('likedPlaylists')
+      .populate('uploadedSongs')
+      .populate('createdPlaylists')
     return this.dto(user)
   }
 
@@ -137,7 +158,8 @@ class userService {
       user = await User.findByIdAndUpdate(userId, { $pull: { createdPlaylists: playlistId } }, {new: true})
       await playlistService.deleteById(playlistId)
     }
-    return user
+    user = await User.findById(userId).populate('likedSongs').populate('likedPlaylists').populate('uploadedSongs').populate('createdPlaylists')
+    return this.dto(user)
   }
 
   // async update(user) {
