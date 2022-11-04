@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import tokenService from "./tokenService.js";
 import { ObjectId } from 'mongodb';
 import playlistService from "./playlistService.js";
+import CoverFileService from "../fileSevices/CoverFileService.js";
 
 class userService {
   dto(user) {
@@ -163,7 +164,8 @@ class userService {
     if (user.createdPlaylists.includes(objId)) {
       await User.updateMany({ $in: { likedPlaylists: playlistId } }, { $pull: { likedPlaylists: playlistId } })    
       user = await User.findByIdAndUpdate(userId, { $pull: { createdPlaylists: playlistId } }, {new: true})
-      await playlistService.deleteById(playlistId)
+      const playlist = await playlistService.deleteById(playlistId)
+      CoverFileService.removeCover(playlist.cover)
     }
     user = await User.findById(userId).populate('likedSongs').populate('likedPlaylists').populate('uploadedSongs').populate('createdPlaylists')
     return this.dto(user)
