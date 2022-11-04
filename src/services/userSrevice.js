@@ -39,7 +39,7 @@ class userService {
     const newUser = await User.create({ email: user.email, username: user.username, password: hashPassword })
     const res = await this.dtoAndToken(newUser)
 
-    return res;
+    return { accessToken: res.accessToken, refreshToken: res.refreshToken, user: this.dto(newUser) };
   }
 
   async login(username, password) {
@@ -52,10 +52,9 @@ class userService {
 
     const isCorrectPass = await bcrypt.compare(password, user.password)
     if (!isCorrectPass) throw 'Invalid password'
-
     const res = await this.dtoAndToken(user)
     
-    return res;
+    return { accessToken: res.accessToken, refreshToken: res.refreshToken, user: this.dto(user) };
   }
 
   async logout(refreshToken) {
@@ -76,7 +75,7 @@ class userService {
       .populate('uploadedSongs')
       .populate('createdPlaylists')
     const res = await this.dtoAndToken(user)
-    return { accessToken: res.accessToken, refreshToken: res.refreshToken, user };
+    return { accessToken: res.accessToken, refreshToken: res.refreshToken, user: this.dto(user) };
   }
 
   async getById(id) {

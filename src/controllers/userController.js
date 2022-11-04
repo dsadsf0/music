@@ -1,7 +1,5 @@
 import userService from '../services/userSrevice.js'
 import {validationResult} from 'express-validator'
-import playlistService from '../services/playlistService.js'
-import { ObjectId } from 'mongodb'
 
 class userController {
   async create(req, res) {
