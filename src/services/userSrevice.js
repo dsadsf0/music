@@ -36,10 +36,6 @@ class userService {
     const hashPassword = await bcrypt.hash(user.password, 5)
 
     const newUser = await User.create({ email: user.email, username: user.username, password: hashPassword })
-      .populate('likedSongs')
-      .populate('likedPlaylists')
-      .populate('uploadedSongs')
-      .populate('createdPlaylists')
     const res = await this.dtoAndToken(newUser)
 
     return res;
