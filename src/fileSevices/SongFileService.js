@@ -9,7 +9,7 @@ class SongFileService {
       const filePath = path.resolve('music', fileName)
       file.mv(filePath)
       console.log('------------------------------')
-      console.log(`\u001b[1;35msaved cover file\u001b[0m`);
+      console.log(`\u001b[1;35m${new Date().toLocaleString()}\nsaved cover file\u001b[0m`);
       console.log(fileName);
       console.log('------------------------------')
       return fileName;
