@@ -11,6 +11,10 @@ class userController {
       const newUser = req.body.user
       const user = await userService.create(newUser)
       res.cookie('refreshToken', user.refreshToken, {maxAge: 1000*60*60*24*30, httpOnly: true, SameSite: 'none', secure: false })
+      console.log('------------------------------')
+      console.log(`\u001b[1;35m${new Date().toLocaleString()}\u001b[0m`)
+      console.log('user signined')
+      console.log('------------------------------')
       return res.json(user)
     } catch (error) {
       console.log(error)
@@ -27,6 +31,10 @@ class userController {
       const {username, password} = req.body
       const user = await userService.login(username, password)
       res.cookie('refreshToken', user.refreshToken, { maxAge: 1000 * 60 * 60 * 24 * 30, httpOnly: true, SameSite: 'none', secure: false })
+      console.log('------------------------------')
+      console.log(`\u001b[1;35m${new Date().toLocaleString()}\u001b[0m`)
+      console.log('user logined')
+      console.log('------------------------------')
       return res.json(user)
     } catch (error) {
       console.log(error)
@@ -39,6 +47,10 @@ class userController {
       const { refreshToken } = req.cookies
       await userService.logout(refreshToken)
       res.clearCookie('refreshToken')
+      console.log('------------------------------')
+      console.log(`\u001b[1;35m${new Date().toLocaleString()}\u001b[0m`)
+      console.log('user logouted')
+      console.log('------------------------------')
       return res.status(200).json('ok')
     } catch (error) {
       console.log(error)
@@ -152,20 +164,6 @@ class userController {
     }
   }
 
-  
-
-  // async updateById(req, res) {
-  //   try {
-  //     const user = req.body.user
-  //     const updatedUser = await userService.update(user)
-  //     res.cookie('refreshToken', updatedUser.refreshToken, { maxAge: 1000 * 60 * 60 * 24 * 30, httpOnly: true, SameSite: 'none', secure: false })
-  //     return res.json(updatedUser)
-  //   } catch (error) {
-  //     console.log(error)
-  //     res.status(500).json(error)
-  //   }
-  // }
-
   async deleteById(req, res) {
     try {
       const id = req.params.id
@@ -179,14 +177,6 @@ class userController {
     }
   }
 
-  // async like(req, res) {
-  //   try {
-  //     const songId = req.body.id
-  //   } catch (error) {
-  //     console.log(error)
-  //     res.status(500).json(error)
-  //   }
-  // }
 }
 
 export default new userController();
