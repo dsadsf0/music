@@ -9,9 +9,8 @@ class SongFileService {
       const filePath = path.resolve('music', fileName)
       file.mv(filePath)
       console.log('------------------------------')
-      console.log(`\u001b[1;35m${new Date().toLocaleString()}\nsaved song file\u001b[0m`);
-      console.log(fileName);
-      console.log('------------------------------')
+      console.log(`\u001b[1;35m${new Date().toLocaleString()}\u001b[0m`);
+      console.log(`song file \u001b[1;35m${fileName}\u001b[0m saved `);
       return fileName;
     } catch (error) {
       console.log(error);

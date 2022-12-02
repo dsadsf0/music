@@ -18,7 +18,6 @@ class songController {
       console.log('------------------------------')
       console.log(`\u001b[1;35m${new Date().toLocaleString()}\u001b[0m`)
       console.log(`song \u001b[1;35m${song.name}\u001b[0m uploaded`)
-      console.log('------------------------------')
       return res.json(user)
     } catch (error) {
       console.log(error);

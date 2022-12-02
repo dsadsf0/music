@@ -11,8 +11,7 @@ class CoverFileService {
       file.mv(filePath)
       console.log('------------------------------')
       console.log(`\u001b[1;35m${new Date().toLocaleString() }\nsaved cover file\u001b[0m`);
-      console.log(fileName);
-      console.log('------------------------------')
+      console.log(`cover file \u001b[1;35m${fileName}\u001b[0m saved `);
       return fileName;
     } catch (error) {
       console.log(error);

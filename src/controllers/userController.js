@@ -14,7 +14,6 @@ class userController {
       console.log('------------------------------')
       console.log(`\u001b[1;35m${new Date().toLocaleString()}\u001b[0m`)
       console.log(`user \u001b[1;35m${user.user.username}\u001b[0m signined`)
-      console.log('------------------------------')
       return res.json(user)
     } catch (error) {
       console.log(error)
@@ -34,7 +33,6 @@ class userController {
       console.log('------------------------------')
       console.log(`\u001b[1;35m${new Date().toLocaleString()}\u001b[0m`)
       console.log(`user \u001b[1;35m${user.user.username}\u001b[0m logined`)
-      console.log('------------------------------')
       return res.json(user)
     } catch (error) {
       console.log(error)
@@ -51,7 +49,6 @@ class userController {
       console.log('------------------------------')
       console.log(`\u001b[1;35m${new Date().toLocaleString()}\u001b[0m`)
       console.log(`user \u001b[1;35m${user.username}\u001b[0m logouted`)
-      console.log('------------------------------')
       return res.status(200).json('ok')
     } catch (error) {
       console.log(error)
@@ -67,13 +64,11 @@ class userController {
       console.log('------------------------------')
       console.log(`\u001b[1;35m${new Date().toLocaleString()}\u001b[0m`)
       console.log(`user \u001b[1;35m${user.user.username}\u001b[0m refreshed token`)
-      console.log('------------------------------')
       return res.json(user)
     } catch (error) {
       console.log('------------------------------')
       console.log(`\u001b[1;35m${new Date().toLocaleString() }\u001b[0m`)
       console.log(error)
-      console.log('------------------------------')
       return res.status(500).json(error)
     }
   }
