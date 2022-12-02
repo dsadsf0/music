@@ -20,7 +20,7 @@ userRouter.post('/login',
   body('password')
     .isLength({ min: 6, max: 30 }).withMessage('Password must be 6-30 characters long'),
   userController.login)
-userRouter.post('/logout', userController.logout)
+userRouter.post('/logout', authMiddleware, userController.logout)
 userRouter.get('/refresh', userController.refreshToken)
 userRouter.get('/user/:id', authMiddleware, userController.getById)
 
